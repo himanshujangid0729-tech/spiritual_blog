@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Prabhu's Spiritual Blog{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- Top Navbar: main topics -->
+<div class="topnav">
+    {% for t in topics.keys() %}
+        <a href="/topic/{{ t.replace(' ', '-') }}/{{ topics[t].keys()|list|first|replace(' ', '-') }}"
+           {% if t == main %}class="active"{% endif %}>
+           {{ t }}
+        </a>
+    {% endfor %}
+</div>
+
+<!-- Container: sidebar + content -->
+<div class="container">
+    <!-- Sidebar: subtopics -->
+    <div class="sidebar">
+        <h3>{{ main }}</h3>
+        <ul>
+            {% for s in topics[main].keys() %}
+                <li>
+                    <a href="/topic/{{ main.replace(' ', '-') }}/{{ s.replace(' ', '-') }}"
+                       {% if s == sub %}class="active"{% endif %}>
+                       {{ s }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+</body>
+</html>
